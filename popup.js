@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log(text);
 
-    const apiKey = "";
+    const apiKey = ENV.API_KEY;
     const model = "gemini-2.0-flash";
 
     const system_instruction =
