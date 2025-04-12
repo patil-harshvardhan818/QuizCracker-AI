@@ -1,17 +1,186 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Selected Text</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body{
+    body {
+      margin: 0;
       width: 500px;
       height: 200px;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #1E40AF 100%);
+      padding: 24px;
+      box-sizing: border-box;
+    }
+
+    .card {
+      background: rgba(30, 27, 75, 0.95);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px -1px rgba(0, 0, 0, 0.3);
+      padding: 24px;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      backdrop-filter: blur(8px);
+      position: relative;
+    }
+
+    .input-container {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .input-container.show {
+      opacity: 1;
+      top: -50px;
+    }
+
+    .page-input {
+      width: 100%;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 2px solid #8B5CF6;
+      background: rgba(30, 27, 75, 0.9);
+      color: #E0E7FF;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .page-input:focus {
+      border-color: #A78BFA;
+      box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.3);
+    }
+
+    .page-input::placeholder {
+      color: #A5B4FC;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      background: linear-gradient(to right, #A78BFA, #93C5FD);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .copy-icon {
+      width: 20px;
+      height: 20px;
+      color: #A78BFA;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .copy-icon:hover {
+      color: #93C5FD;
+    }
+
+    #selectedText {
+      margin-top: 12px;
+      padding: 16px;
+      border-radius: 8px;
+      background: rgba(30, 27, 75, 0.6);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      font-weight: 500;
+      color: #E0E7FF;
+      transition: all 0.3s ease;
+    }
+
+    #selectedText:hover {
+      transform: scale(1.01);
+      box-shadow: 0 4px 12px -1px rgba(0, 0, 0, 0.2);
+      border-color: rgba(139, 92, 246, 0.4);
+      background: rgba(30, 27, 75, 0.8);
+    }
+
+    .add-page-btn {
+      position: absolute;
+      top: 24px;
+      right: 60px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .plus-icon {
+      width: 20px;
+      height: 20px;
+      color: #A78BFA;
+      transition: color 0.3s ease;
+    }
+
+    .plus-icon:hover {
+      color: #93C5FD;
     }
   </style>
 </head>
 <body>
-  <h3>Selected Text:</h3>
-  <div id="selectedText">No text selected yet.</div>
+  <div class="card">
+    <div class="input-container">
+      <input type="text" class="page-input" placeholder="Enter page URL..." />
+    </div>
+    <div class="header">
+      <h3>Selected Text</h3>
+      <button class="add-page-btn">
+        <svg class="plus-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+      <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+    </div>
+    <div id="selectedText">No text selected yet.</div>
+  </div>
+
+  <script>
+    const addPageBtn = document.querySelector('.add-page-btn');
+    const inputContainer = document.querySelector('.input-container');
+    const pageInput = document.querySelector('.page-input');
+
+    addPageBtn.addEventListener('click', () => {
+      inputContainer.classList.add('show');
+      pageInput.focus();
+    });
+
+    pageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const value = pageInput.value;
+        if (value) {
+          // Handle the URL value here
+          inputContainer.classList.remove('show');
+          pageInput.value = '';
+        }
+      }
+    });
+
+    // Hide input when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!inputContainer.contains(e.target) && !addPageBtn.contains(e.target)) {
+        inputContainer.classList.remove('show');
+      }
+    });
+  </script>
   <script src="popup.js"></script>
   <script src=".env.js"></script>
 </body>
