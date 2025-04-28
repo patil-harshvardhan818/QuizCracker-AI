@@ -55,7 +55,8 @@ That's it! Quick, simple, and effective.
 The extension uses an AI service that requires an API key.
 
 1. **Get an API Key**:
-   - Register or log in to the AI service provider to get your API key.
+   > Currently, the extension is set up to only work with Google's Gemini API.
+   - Register or log in to the AI service provider to get your API key. (for example, [Gemini](https://aistudio.google.com/apikey)).
 
 2. **Configure the API Key**:
    - Rename the file `.env.js.example` to `.env.js`.
